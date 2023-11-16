@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GiftController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TasksController;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 //Home
 Route::get('/', [HomeController::class, 'getMain'])->name('home');
+Route::get('/home', [HomeController::class, 'getMain']);
+
 
 //Users
 Route::get('/all_users', [UserController::class, 'getUsers'])->name('users');
@@ -28,7 +31,7 @@ Route::get('/view_user/{id}', [UserController::class,'viewUser'])->name('view_us
 Route::get('/delete_user/{id}', [UserController::class,'deleteUser'])->name('delete_user');
 
 //Tasks
-Route::get('/all_tasks', [TasksController::class,'getTasks'])->name('all_tasks');
+Route::get('/all_tasks', [TasksController::class,'getTasks'])->name('all_tasks')->middleware('auth');
 Route::post('/store_task', [TasksController::class,'storeTask'])->name('storeTask');
 Route::get('/view_task/{id}', [TasksController::class,'viewTask'])->name('view_task');
 Route::get('/add_task', [TasksController::class,'addTask'])->name('add_tasks');
@@ -42,5 +45,8 @@ Route::get('/view_gift/{id}', [GiftController::class,'viewGift'])->name('view_gi
 Route::get('/add_gift', [GiftController::class,'addGift'])->name('add_gifts');
 Route::get('/delete_gift/{id}', [GiftController::class,'deleteGift'])->name('delete_gift');
 Route::post('/update_gift', [GiftController::class,'updateGift'])->name('gift_update');
+
+//Dashboard
+Route::get('/dashboard', [DashboardController::class,'getDashboard'])->name('dashboard')->middleware('auth');
 
 Route::fallback(function () {return view('fallback.fallback');});

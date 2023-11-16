@@ -10,6 +10,23 @@
         }
     </style>
     <h2>Users</h2>
+    <div style="display: flex; align-items: center; margin-bottom: 20px">
+        <form action="" method="get">
+            <select name="user_id" id="" onchange="this.form.submit()">
+                <option value="">Todos os Users</option>
+                @foreach($allUsers as $user)
+                    <option value="{{$user->id}}" @if($user->id == request()->query('user_id')) selected @endif>
+                        {{$user->name}}
+                    </option>
+                @endforeach
+            </select>
+        </form>
+        <form action="">
+            <input class="ms-5" type="text" value="{{request()->query('search')}}" name="search" id="" placeholder="Search">
+            <button class="btn btn-secondary">Search</button>
+        </form>
+    </div>
+
     <table class="table">
         <thead>
         <tr>
@@ -26,8 +43,10 @@
                 <td>
                     {{$user->password}}
                 </td>
-                <td><a href="{{route('view_users',$user->id)}}"><button type="button" class="btn btn-primary">Info</button></a></td>
-                <td><a href="{{route('delete_user',$user->id)}}"><button type="button" class="btn btn-danger">Apagar</button></a></td>
+                @auth()
+                    <td><a href="{{route('view_users',$user->id)}}"><button type="button" class="btn btn-primary">Info</button></a></td>
+                    <td><a href="{{route('delete_user',$user->id)}}"><button type="button" class="btn btn-danger">Apagar</button></a></td>
+                @endauth
             </tr>
         @endforeach
         </tbody>

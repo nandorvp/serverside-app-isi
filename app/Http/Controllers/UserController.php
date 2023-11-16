@@ -11,8 +11,24 @@ class UserController extends Controller
 {
     public function getUsers()
     {
-        $users = $this->getAllUsers();
-        return view('users.all', compact('users'));
+        $allUsers = $this->getAllUsers();
+        $search = request()->query('search') ? request()->query('search') : null;
+
+
+        if (request()->query('user_id')) {
+            $users = DB::table('users')-> where('id', request()->query('user_id'))
+                ->get();
+        }
+        else if ($search) {
+//            $users = DB::table('users')->where('name','LIKE','%{$search}%');
+            $users = DB::table('users')->where('email',"LIKE","%{$search}%")
+                                ->orWhere('name',"LIKE","%{$search}%")
+                                ->get();
+        } else {
+            $users = $this->getAllUsers();
+        }
+
+        return view('users.all', compact('users','allUsers'));
     }
 
     public function viewUser($id)

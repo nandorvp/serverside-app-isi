@@ -8,7 +8,6 @@
         <li><a href="{{route('add_gifts')}}">Adicionar Gift</a></li>
         <li><a href="{{route('add_users')}}">Adicionar Utilizador</a></li>
         <li><a href="{{route('add_tasks')}}">Adicionar Tarefas</a></li>
-
     </ul>
     <ul>
         @foreach($weekDays as $day)
